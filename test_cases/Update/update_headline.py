@@ -17,7 +17,7 @@ class TestUpdateHeadline:
 
         # Login Process
         self.login_page = LoginPage(self.driver)
-        self.login_page.click_login_page_button()
+        # self.login_page.click_login_page_button()
         self.login_page.set_email(read_properties.read_login_username())
         self.login_page.set_password(read_properties.read_password())
         self.login_page.click_login_button()

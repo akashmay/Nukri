@@ -2,9 +2,9 @@ from selenium.webdriver.common.by import By
 
 class LoginPage:
 
-    button_login_page_id = "login_Layer"
-    input_email_xpath= "//input[@placeholder='Enter your active Email ID / Username']"
-    input_password_xpath = "//input[@placeholder='Enter your password']"
+    # button_login_page_id = "login_Layer"
+    input_email_xpath= "//input[@id='usernameField']"
+    input_password_xpath = "//input[@id='passwordField']"
     button_login_xpath = "//button[text()='Login']"
 
     def __init__(self,driver):
