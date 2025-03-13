@@ -5,7 +5,7 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        stage('Checkout') { 
             steps {
                 script {
                     // Checkout code from Git repository
