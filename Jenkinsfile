@@ -1,9 +1,11 @@
 pipeline {
     agent any  // This defines where the pipeline will run
-
+    tools {
+        git 'Windows-git'  // If you are using a custom Git installation
+    }
 
     environment {
-        PYTHON_VENV = 'C:\\jenkins\\python_venv'  // You can specify the path for your Python virtual environment
+        PYTHON_VENV = 'C:\\jenkins\\python_venv'  // Specify the path for your Python virtual environment
     }
 
     stages {
@@ -20,17 +22,24 @@ pipeline {
             steps {
                 script {
                     // Install Python dependencies from requirements.txt
-                    powershell '''
-                        # Create a virtual environment (if not exists)
-                        if (!(Test-Path -Path $env:PYTHON_VENV)) {
-                            python -m venv $env:PYTHON_VENV
-                        }
+                    bat '''
+                        REM Check if Python is available in PATH
+                        where python >nul 2>nul
+                        IF %ERRORLEVEL% NEQ 0 (
+                            echo Python not found in PATH. Please install Python and add it to PATH.
+                            exit /b 1
+                        )
 
-                        # Activate the virtual environment
-                        $env:VIRTUAL_ENV = $env:PYTHON_VENV
-                        $env:PATH = "$env:VIRTUAL_ENV\\Scripts;$env:PATH"
+                        REM Create a virtual environment (if not exists)
+                        IF NOT EXIST "%PYTHON_VENV%" (
+                            python -m venv %PYTHON_VENV%
+                        )
 
-                        # Install dependencies from requirements.txt
+                        REM Activate the virtual environment
+                        set VIRTUAL_ENV=%PYTHON_VENV%
+                        set PATH=%VIRTUAL_ENV%\\Scripts;%PATH%
+
+                        REM Upgrade pip and install dependencies
                         pip install --upgrade pip
                         pip install -r requirements.txt
                     '''
@@ -41,13 +50,13 @@ pipeline {
         stage('Test') {
             steps {
                 script {
-                    // Run pytest automation using PowerShell on Windows
-                    powershell '''
-                        # Ensure the virtual environment is activated
-                        $env:VIRTUAL_ENV = $env:PYTHON_VENV
-                        $env:PATH = "$env:VIRTUAL_ENV\\Scripts;$env:PATH"
+                    // Run pytest automation using CMD (Batch)
+                    bat '''
+                        REM Ensure the virtual environment is activated
+                        set VIRTUAL_ENV=%PYTHON_VENV%
+                        set PATH=%VIRTUAL_ENV%\\Scripts;%PATH%
 
-                        # Run pytest automation
+                        REM Run pytest automation
                         pytest test_cases\\update\\update_headline.py -v -s --browser=chrome
                     '''
                 }
