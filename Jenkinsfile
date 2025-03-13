@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        label 'windows-slave'  // Use the label of your Windows slave node
+    }
+    tools {
+        git 'Windows Git'  // This should match the Git installation name configured for the Windows slave
+    }
     stages {
         stage('Checkout') {
             steps {
