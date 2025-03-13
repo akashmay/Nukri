@@ -1,6 +1,6 @@
 pipeline {
     agent any  // This defines where the pipeline will run
-        tools {
+    tools {
         git 'Windows-git'  // If you are using a custom Git installation
     }
 
@@ -13,11 +13,14 @@ pipeline {
                 }
             }
         }
+
         stage('Test') {
             steps {
                 script {
-                    // Run pytest automation
-                    sh 'pytest test_cases/update/update_headline.py -v -s --browser=chrome'
+                    // Run pytest automation using PowerShell on Windows
+                    powershell '''
+                        pytest test_cases\\update\\update_headline.py -v -s --browser=chrome
+                    '''
                 }
             }
         }
