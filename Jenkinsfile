@@ -1,8 +1,6 @@
 pipeline {
     agent any  // This defines where the pipeline will run
-    tools {
-        git 'Windows-git'  // If you are using a custom Git installation
-    }
+
 
     environment {
         PYTHON_VENV = 'C:\\jenkins\\python_venv'  // You can specify the path for your Python virtual environment
