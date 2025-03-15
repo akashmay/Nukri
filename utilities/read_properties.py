@@ -1,7 +1,8 @@
 import configparser
 import os.path
 
-file = os.path.abspath(os.path.curdir)+"\\configurations\\config.ini"
+#file = os.path.abspath(os.path.curdir)+"\\configurations\\config.ini"
+file = os.path.abspath(os.path.curdir)+"/configurations/config.ini"
 #file = "D:\\work\\worksapace_pycharm\\Nukri\\Nurkri.com\\configurations\\config.ini"
 print(file)
 config = configparser.RawConfigParser()
